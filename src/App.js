@@ -4,20 +4,20 @@ const Father = styled.div`
   display: flex;
 `;
 
-const Box = styled.div`
+const Btn = styled.button`
   background-color: ${(props) => props.bgColor};
-  width: 100px;
-  height: 100px;
+  color: white;
+  border: 0;
+  border-radius: 15px;
 `;
 
-const Circle = styled(Box)`
-  border-radius: 50px;
-`;
 function App() {
   return (
     <Father>
-      <Box bgColor="tomato"></Box>
-      <Circle bgColor="teal"></Circle>
+      <Btn bgColor="tomato">Login</Btn>
+      <Btn as="a" bgColor="teal">
+        Login
+      </Btn>
     </Father>
   );
 }
