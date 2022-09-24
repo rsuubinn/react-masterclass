@@ -17,6 +17,10 @@ const lotateAnimation = keyframes`
   }
 `;
 
+const Emoji = styled.span`
+  font-size: 36px;
+`;
+
 const Box = styled.div`
   display: flex;
   justify-content: center;
@@ -25,10 +29,10 @@ const Box = styled.div`
   width: 200px;
   height: 200px;
   animation: ${lotateAnimation} 1s linear infinite;
-  span {
+  ${Emoji} {
     font-size: 30px;
     &:hover {
-      display: none;
+      font-size: 96px;
     }
   }
 `;
@@ -37,8 +41,9 @@ function App() {
   return (
     <Wrapper>
       <Box>
-        <span>🥸</span>
+        <Emoji>🥸</Emoji>
       </Box>
+      <Emoji>🔥</Emoji>
     </Wrapper>
   );
 }
