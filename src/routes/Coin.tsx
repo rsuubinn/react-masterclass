@@ -1,7 +1,8 @@
 import { useEffect } from "react";
 import { useState } from "react";
-import { Routes, Route, useParams } from "react-router";
+import { Routes, Route, useParams, useMatch } from "react-router";
 import { useLocation } from "react-router";
+import { Link } from "react-router-dom";
 import styled from "styled-components";
 import Chart from "./Chart";
 import Price from "./Price";
@@ -49,6 +50,24 @@ const Description = styled.p`
   margin: 20px 0px;
   line-height: 25px;
   font-size: 18px;
+`;
+
+const Taps = styled.div`
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  margin: 25px 0px;
+  gap: 10px;
+`;
+const Tap = styled.span<{ isActive: boolean }>`
+  text-align: center;
+  background-color: rgba(0, 0, 0, 0.5);
+  padding: 7px 0px;
+  border-radius: 15px;
+  a {
+    display: block;
+  }
+  color: ${(props) =>
+    props.isActive ? props.theme.accentColor : props.theme.textColor};
 `;
 
 interface RouteState {
@@ -119,6 +138,10 @@ function Coin() {
   const { state } = useLocation() as RouteState;
   const [info, setInfo] = useState<InfoData>();
   const [priceInfo, setPriceInfo] = useState<PriceData>();
+  const priceMatch = useMatch(`/${coinId}/price`);
+  const chartMatch = useMatch(`/${coinId}/chart`);
+  console.log(priceMatch);
+  // console.log(chartMatch);
 
   useEffect(() => {
     (async () => {
@@ -128,7 +151,6 @@ function Coin() {
       const priceData = await (
         await fetch(`https://api.coinpaprika.com/v1/tickers/${coinId}`)
       ).json();
-      console.log(priceData);
       setInfo(infoData);
       setPriceInfo(priceData);
       setLoading(false);
@@ -170,6 +192,15 @@ function Coin() {
               <span>{priceInfo?.max_supply}</span>
             </OverviewItem>
           </Overview>
+
+          <Taps>
+            <Tap isActive={chartMatch !== null}>
+              <Link to={`/${coinId}/chart`}>Chart</Link>
+            </Tap>
+            <Tap isActive={priceMatch !== null}>
+              <Link to={`/${coinId}/price`}>Price</Link>
+            </Tap>
+          </Taps>
           <Routes>
             <Route path={`/chart`} element={<Chart />} />
             <Route path={`/price`} element={<Price />} />
