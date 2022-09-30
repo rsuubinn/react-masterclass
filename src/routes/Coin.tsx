@@ -1,6 +1,4 @@
 import { useQuery } from "@tanstack/react-query";
-import { useEffect } from "react";
-import { useState } from "react";
 import { Routes, Route, useParams, useMatch } from "react-router";
 import { useLocation } from "react-router";
 import { Link } from "react-router-dom";
@@ -195,7 +193,10 @@ function Coin() {
             </Tap>
           </Taps>
           <Routes>
-            <Route path={`/chart`} element={<Chart />} />
+            <Route
+              path={`/chart`}
+              element={<Chart coinId={coinId as string} />}
+            />
             <Route path={`/price`} element={<Price />} />
           </Routes>
         </>
