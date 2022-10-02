@@ -22,7 +22,49 @@ function Chart({ coinId }: ChartProps) {
     fetchCoinHistory(coinId)
   );
   return (
-    <div>{isLoading ? "Loading..." : <ApexChart type="line"></ApexChart>}</div>
+    <div>
+      {isLoading ? (
+        "Loading..."
+      ) : (
+        <ApexChart
+          type="line"
+          series={[
+            {
+              name: "Price",
+              data: data?.map((price) => parseFloat(price.close)) ?? [],
+            },
+          ]}
+          options={{
+            theme: {
+              mode: "dark",
+            },
+            chart: {
+              width: 500,
+              height: 300,
+              toolbar: {
+                show: false,
+              },
+              background: "transparent",
+            },
+            grid: {
+              show: false,
+            },
+            stroke: {
+              curve: "smooth",
+              width: 4,
+            },
+            yaxis: {
+              show: false,
+            },
+            xaxis: {
+              axisBorder: { show: false },
+              axisTicks: { show: false },
+              labels: { show: false },
+            },
+          }}
+        ></ApexChart>
+      )}
+    </div>
   );
 }
 
