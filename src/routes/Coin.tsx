@@ -1,4 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
+import { Helmet } from "react-helmet-async";
 import { Routes, Route, useParams, useMatch } from "react-router";
 import { useLocation } from "react-router";
 import { Link } from "react-router-dom";
@@ -137,11 +138,11 @@ function Coin() {
   const { state } = useLocation() as RouteState;
   const priceMatch = useMatch(`/${coinId}/price`);
   const chartMatch = useMatch(`/${coinId}/chart`);
-  const { isLoading: loadingInfo, data: infoData } = useQuery(
+  const { isLoading: loadingInfo, data: infoData } = useQuery<InfoData>(
     ["info", coinId],
     () => fetchCoinInfo(coinId ? coinId : "")
   );
-  const { isLoading: loadingPrice, data: priceData } = useQuery(
+  const { isLoading: loadingPrice, data: priceData } = useQuery<PriceData>(
     ["price", coinId],
     () => fetchCoinPrice(coinId ? coinId : "")
   );
@@ -149,6 +150,11 @@ function Coin() {
   const loading = loadingInfo || loadingPrice;
   return (
     <Container>
+      <Helmet>
+        <title>
+          {state?.name ? state.name : loading ? "Loading..." : infoData?.name}
+        </title>
+      </Helmet>
       <Header>
         <Title>
           {state?.name ? state.name : loading ? "Loading..." : infoData?.name}
@@ -168,8 +174,8 @@ function Coin() {
               <span>${infoData?.symbol}</span>
             </OverviewItem>
             <OverviewItem>
-              <span>Open Source: </span>
-              <span>{infoData?.open_source ? "Yes" : "No"}</span>
+              <span>Price: </span>
+              <span>${priceData?.quotes.USD.price.toFixed(2)}</span>
             </OverviewItem>
           </Overview>
           <Description>{infoData?.description}</Description>
