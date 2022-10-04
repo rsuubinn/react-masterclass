@@ -191,7 +191,7 @@ function Coin() {
             </OverviewItem>
             <OverviewItem>
               <span>티커</span>
-              <span>${infoData?.symbol}</span>
+              <span>{infoData?.symbol}</span>
             </OverviewItem>
             <OverviewItem>
               <span>현재가</span>
