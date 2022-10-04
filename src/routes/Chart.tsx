@@ -25,58 +25,65 @@ function Chart({ coinId }: ChartProps) {
       refetchInterval: 10000,
     }
   );
+  let validData = data ?? [];
+  if ("error" in validData) {
+    validData = [];
+  }
   return (
     <div>
       {isLoading ? (
         "Loading..."
       ) : (
         <ApexChart
-          type="line"
+          type="candlestick"
           series={[
             {
-              name: "Price",
-              data: data?.map((price) => parseFloat(price.close)) ?? [],
+              data: validData?.map((price) => ({
+                x: price.time_close * 1000,
+                y: [price.open, price.high, price.low, price.close],
+              })),
             },
           ]}
+          title="Candlestick"
           options={{
+            noData: {
+              text: "데이터가 존재하지 않습니다.",
+              style: {
+                fontSize: "16px",
+              },
+            },
+            fill: {
+              opacity: 1,
+            },
             theme: {
               mode: "dark",
             },
             chart: {
-              width: 500,
-              height: 300,
+              background: "transparent",
+              width: "100%",
               toolbar: {
                 show: false,
               },
-              background: "transparent",
+            },
+            xaxis: {
+              type: "datetime",
+              axisTicks: {
+                show: false,
+              },
+              labels: {
+                show: false,
+              },
+              axisBorder: {
+                show: false,
+              },
+            },
+            yaxis: {
+              labels: {
+                show: false,
+              },
             },
             grid: {
               show: false,
-            },
-            stroke: {
-              curve: "smooth",
-              width: 4,
-            },
-            yaxis: {
-              show: false,
-            },
-            xaxis: {
-              axisBorder: { show: false },
-              axisTicks: { show: false },
-              labels: { show: false },
-              type: "datetime",
-              categories: data?.map((price) =>
-                new Date(price.time_close * 1000).toISOString()
-              ),
-            },
-            fill: {
-              type: "gradient",
-              gradient: { gradientToColors: ["#0be881"], stops: [0, 100] },
-            },
-            tooltip: {
-              y: {
-                formatter: (value) => `$${value.toFixed(2)}`,
-              },
             },
           }}
         ></ApexChart>

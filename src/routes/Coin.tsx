@@ -14,14 +14,26 @@ const Container = styled.div`
   margin: 0 auto;
 `;
 
-const Header = styled.div`
+const Header = styled.header`
+  width: 100%;
   height: 15vh;
   display: flex;
-  justify-content: center;
   align-items: center;
 `;
 
+const Button = styled(Link)`
+  font-size: 2.2rem;
+  display: block;
+  color: ${(props) => props.theme.accentColor};
+  &:hover {
+    color: white;
+  }
+`;
+
 const Title = styled.h1`
+  position: absolute;
+  left: 50%;
+  transform: translate(-50%, 0%);
   font-size: 48px;
   color: ${(props) => props.theme.accentColor};
 `;
@@ -35,7 +47,7 @@ const Overview = styled.div`
   justify-content: space-between;
   align-items: center;
   background-color: rgba(0, 0, 0, 0.5);
-  padding: 20px 10px;
+  padding: 20px;
   border-radius: 10px;
 `;
 const OverviewItem = styled.div`
@@ -44,13 +56,16 @@ const OverviewItem = styled.div`
   align-items: center;
   span:first-child {
     margin-bottom: 10px;
-    font-size: 18px;
+    font-size: 15px;
   }
 `;
 const Description = styled.p`
+  padding: 20px;
   margin: 20px 0px;
   line-height: 25px;
   font-size: 18px;
+  background-color: rgba(0, 0, 0, 0.5);
+  border-radius: 10px;
 `;
 
 const Taps = styled.div`
@@ -66,6 +81,10 @@ const Tap = styled.span<{ isActive: boolean }>`
   border-radius: 15px;
   a {
     display: block;
+    &:hover {
+      transition: color 0.2s ease-in-out;
+      color: ${(props) => props.theme.accentColor};
+    }
   }
   color: ${(props) =>
     props.isActive ? props.theme.accentColor : props.theme.textColor};
@@ -156,6 +175,7 @@ function Coin() {
         </title>
       </Helmet>
       <Header>
+        <Button to="/">&larr;</Button>
         <Title>
           {state?.name ? state.name : loading ? "Loading..." : infoData?.name}
         </Title>
@@ -166,26 +186,26 @@ function Coin() {
         <>
           <Overview>
             <OverviewItem>
-              <span>Rank: </span>
+              <span>순위</span>
               <span>{infoData?.rank}</span>
             </OverviewItem>
             <OverviewItem>
-              <span>Symbol: </span>
+              <span>티커</span>
               <span>${infoData?.symbol}</span>
             </OverviewItem>
             <OverviewItem>
-              <span>Price: </span>
+              <span>현재가</span>
               <span>${priceData?.quotes.USD.price.toFixed(2)}</span>
             </OverviewItem>
           </Overview>
           <Description>{infoData?.description}</Description>
           <Overview>
             <OverviewItem>
-              <span>Total Suply: </span>
+              <span>총량</span>
               <span>{priceData?.total_supply}</span>
             </OverviewItem>
             <OverviewItem>
-              <span>Max Suply: </span>
+              <span>최대 발행량</span>
               <span>{priceData?.max_supply}</span>
             </OverviewItem>
           </Overview>
@@ -203,7 +223,10 @@ function Coin() {
               path={`/chart`}
               element={<Chart coinId={coinId as string} />}
             />
-            <Route path={`/price`} element={<Price />} />
+            <Route
+              path={`/price`}
+              element={<Price coinId={coinId as string} />}
+            />
           </Routes>
         </>
       )}
