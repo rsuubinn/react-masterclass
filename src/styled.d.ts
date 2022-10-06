@@ -6,5 +6,9 @@ declare module "styled-components" {
     textColor: string;
     bgColor: string;
     accentColor: string;
+    coinListBgColor: string;
+    trendingUpColor: string;
+    trendingFlatColor: string;
+    trendingDownColor: string;
   }
 }

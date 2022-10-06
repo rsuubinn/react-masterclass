@@ -6,13 +6,16 @@ import TrendingDownIcon from "@mui/icons-material/TrendingDown";
 import TrendingFlatIcon from "@mui/icons-material/TrendingFlat";
 
 const PriceContainer = styled.div`
+  color: ${(props) => props.theme.textColor};
   display: grid;
   gap: 10px;
   grid-template-columns: repeat(2, 1fr);
   grid-template-rows: repeat(4, 1fr);
+  margin-bottom: 5vh;
 `;
 
 const PrcieItem = styled.div`
+  box-shadow: rgb(10 10 10 / 10%) 0px 0.2rem 0.5rem;
   &:first-child {
     grid-column-start: span 2;
     display: flex;
@@ -20,29 +23,24 @@ const PrcieItem = styled.div`
     align-items: center;
     & > span:nth-child(2) {
       font-size: 35px;
+      color: ${(props) => props.theme.accentColor};
     }
   }
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: ${(props) => props.theme.coinListBgColor};
   border-radius: 10px;
-  /* width: 100%;
-  height: 10vh; */
   padding: 10px 20px;
   & > div:nth-child(2) {
-    margin-top: 10px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    font-size: 30px;
   }
 `;
 
 interface PriceIndicatorProps {
   percentage: number;
+  className?: string;
 }
 
-function PriceIndicator({ percentage }: PriceIndicatorProps) {
+function PriceIndicator({ percentage, className }: PriceIndicatorProps) {
   return (
-    <div>
+    <div className={className}>
       <div>{percentage.toFixed(2)}%</div>
       {percentage > 0 ? (
         <TrendingUpIcon />
@@ -55,7 +53,22 @@ function PriceIndicator({ percentage }: PriceIndicatorProps) {
   );
 }
 
-const PriceIndicatorStyled = styled(PriceIndicator)<{ percentage: number }>``;
+const PriceIndicatorStyled = styled(PriceIndicator)<{ percentage: number }>`
+  margin-top: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 30px;
+  color: ${(props) =>
+    props.percentage > 0
+      ? props.theme.trendingUpColor
+      : props.percentage === 0
+      ? props.theme.trendingFlatColor
+      : props.theme.trendingDownColor};
+  & svg {
+    font-size: 40px;
+  }
+`;
 
 interface PriceProps {
   coinId: string;

@@ -1,10 +1,12 @@
-import { createGlobalStyle, ThemeProvider } from "styled-components";
+import styled, { createGlobalStyle, ThemeProvider } from "styled-components";
 import Router from "./Router";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { HelmetProvider } from "react-helmet-async";
 import { darkTheme, lightTheme } from "./theme";
-import { useRecoilValue } from "recoil";
+import { useRecoilValue, useSetRecoilState } from "recoil";
 import { isDarkAtom } from "./atoms";
+import DarkModeIcon from "@mui/icons-material/DarkMode";
+import LightModeIcon from "@mui/icons-material/LightMode";
 
 const GlobalStyle = createGlobalStyle`
 @import url('https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@300;400&display=swap');
@@ -39,6 +41,7 @@ footer, header, hgroup, main, menu, nav, section {
 }
 body {
   line-height: 1;
+  transition: background-color 0.3s;
 }
 menu, ol, ul {
   list-style: none;
@@ -70,11 +73,42 @@ body {
  }
 `;
 
+const ThemeButton = styled.div`
+  box-shadow: rgb(10 10 10 / 30%) 0px 0rem 0.5rem;
+  position: fixed;
+  top: 15px;
+  left: 15px;
+  width: 50px;
+  height: 50px;
+  background-color: ${(props) => props.theme.coinListBgColor};
+  color: ${(props) => props.theme.accentColor};
+  text-align: center;
+  display: flex;
+  flex-direction: center;
+  align-items: center;
+  border-radius: 50px;
+  & svg {
+    font-size: 30px;
+    display: block;
+    position: relative;
+    left: 50%;
+    transform: translate(-50%, 0%);
+  }
+  &:hover {
+    cursor: pointer;
+  }
+`;
+
 function App() {
   const isDark = useRecoilValue(isDarkAtom);
+  const setIsDarkAtom = useSetRecoilState(isDarkAtom);
+  const changeTheme = () => setIsDarkAtom((value) => !value);
   return (
     <>
       <ThemeProvider theme={isDark ? darkTheme : lightTheme}>
+        <ThemeButton onClick={changeTheme}>
+          {isDark ? <LightModeIcon /> : <DarkModeIcon />}
+        </ThemeButton>
         <GlobalStyle />
         <HelmetProvider>
           <Router />

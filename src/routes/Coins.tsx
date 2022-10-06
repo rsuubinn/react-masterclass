@@ -20,16 +20,20 @@ const Header = styled.div`
 const CoinsList = styled.ul``;
 
 const Coin = styled.li`
-  background-color: white;
-  color: ${(props) => props.theme.bgColor};
+  background-color: ${(props) => props.theme.coinListBgColor};
+  color: ${(props) => props.theme.textColor};
   border-radius: 15px;
   margin-bottom: 10px;
-
+  box-shadow: rgb(10 10 10 / 10%) 0px 0.2rem 0.5rem;
   a {
     display: flex;
     align-items: center;
     padding: 20px 10px;
     transition: color 0.2s ease-in-out;
+    span {
+      margin-left: 5px;
+      font-size: 20px;
+    }
   }
   &:hover {
     a {
@@ -74,7 +78,7 @@ function Coins() {
         <Title>Coins</Title>
       </Header>
       {isLoading ? (
-        <Loader>loading...</Loader>
+        <Loader>Loading...</Loader>
       ) : (
         <CoinsList>
           {data?.slice(0, 100).map((coin) => (
@@ -83,7 +87,8 @@ function Coins() {
                 <Img
                   src={`https://cryptocurrencyliveprices.com/img/${coin.id}.png`}
                 />
-                {coin.name} &rarr;
+                {coin.name}
+                <span>&rarr;</span>
               </Link>
             </Coin>
           ))}

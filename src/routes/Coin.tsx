@@ -26,7 +26,7 @@ const Button = styled(Link)`
   display: block;
   color: ${(props) => props.theme.accentColor};
   &:hover {
-    color: white;
+    color: ${(props) => props.theme.textColor};
   }
 `;
 
@@ -46,9 +46,10 @@ const Overview = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: ${(props) => props.theme.coinListBgColor};
   padding: 20px;
   border-radius: 10px;
+  box-shadow: rgb(10 10 10 / 10%) 0px 0.2rem 0.5rem;
 `;
 const OverviewItem = styled.div`
   display: flex;
@@ -64,8 +65,9 @@ const Description = styled.p`
   margin: 20px 0px;
   line-height: 25px;
   font-size: 18px;
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: ${(props) => props.theme.coinListBgColor};
   border-radius: 10px;
+  box-shadow: rgb(10 10 10 / 10%) 0px 0.2rem 0.5rem;
 `;
 
 const Taps = styled.div`
@@ -75,8 +77,9 @@ const Taps = styled.div`
   gap: 10px;
 `;
 const Tap = styled.span<{ isActive: boolean }>`
+  box-shadow: rgb(10 10 10 / 10%) 0px 0.2rem 0.5rem;
   text-align: center;
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: ${(props) => props.theme.coinListBgColor};
   padding: 7px 0px;
   border-radius: 15px;
   a {
@@ -181,7 +184,7 @@ function Coin() {
         </Title>
       </Header>
       {loading ? (
-        <Loader>loading...</Loader>
+        <Loader>Loading...</Loader>
       ) : (
         <>
           <Overview>
